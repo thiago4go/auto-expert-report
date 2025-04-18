@@ -5,7 +5,7 @@
 
 ## 1. Current Status Summary
 
-The project foundation is established according to the plan defined in PLAN MODE. Phase 1 (Scaffolding, Config, Logging, Tailwind Setup) is complete. Phase 2 (Core Logic) has begun with the implementation of the API Client module. Test-Driven Development (TDD) is being followed.
+The project foundation is established according to the plan defined in PLAN MODE. Phase 1 (Scaffolding, Config, Logging, Tailwind Setup) is complete. Phase 2 (Core Logic) is progressing with the implementation and testing of the API Client module. Test-Driven Development (TDD) is being followed.
 
 ## 2. What Works (Completed Features/Milestones)
 
@@ -21,22 +21,29 @@ The project foundation is established according to the plan defined in PLAN MODE
 *   ✅ **Phase 2 (Partial): API Client Implementation** (Completed: 2025-04-19)
     *   ✅ API Client Module (`studyguide/api_client.py`) implemented with `httpx.AsyncClient`, `tenacity` retries, `aiocache` (in-memory), and `structlog` logging.
 
-## 3. What's Left to Build (Remaining Work)
+## 3. What's Left to Build (Remaining Work & Milestones)
 
-*   ⏳ **Phase 2: Core Logic Implementation (TDD)**
-    *   ⏳ API Client Tests (`tests/unit/test_api_client.py`) (Status: **Next Step**)
-    *   ⏳ Parser Module (`studyguide/parser.py` + tests) (Status: Not Started)
-    *   ⏳ Visualizer Module (`studyguide/visualizer.py` + tests) (Status: Not Started)
-    *   ⏳ Renderer Module (`studyguide/renderer.py` + tests) (Status: Not Started)
-    *   ⏳ Engine Module (`studyguide/engine.py` + tests) (Status: Not Started)
-*   ⏳ **Phase 3: User Interfaces & Finalization**
-    *   ⏳ CLI Module (`studyguide/cli.py` + tests) (Status: Not Started)
-    *   ⏳ Streamlit UI (`app/preview.py` + tests) (Status: Not Started)
-    *   ⏳ Documentation & Refinement (`README.md`, `docs/`, diagrams, coverage check) (Status: Not Started)
+*   🎯 **Phase 2: Core Logic Implementation (TDD)**
+    *   ✅ **Milestone 2.1:** Implement & Pass API Client Tests (`tests/unit/test_api_client.py`) (Status: Completed: 2025-04-19)
+    *   ✅ **Milestone 2.2:** Implement Parser Module (`studyguide/parser.py`) - Pydantic models defined, parsing logic stubbed. (Status: Partially Completed: 2025-04-19)
+    *   ✅ **Milestone 2.3:** Implement & Pass Parser Tests (`tests/unit/test_parser.py`) - Model tests passing, parser logic tests pending. (Status: Partially Completed: 2025-04-19)
+    *   🎯 **Milestone 2.4:** Implement Visualizer Module (`studyguide/visualizer.py`) - Diagram generation. (Status: Not Started)
+    *   🎯 **Milestone 2.5:** Implement & Pass Visualizer Tests (`tests/unit/test_visualizer.py`). (Status: Not Started)
+    *   🎯 **Milestone 2.6:** Implement Renderer Module (`studyguide/renderer.py`) - Jinja2 setup, HTML generation. (Status: Not Started)
+    *   🎯 **Milestone 2.7:** Implement & Pass Renderer Tests (`tests/unit/test_renderer.py`) - Incl. snapshot tests. (Status: Not Started)
+    *   🎯 **Milestone 2.8:** Implement Engine Module (`studyguide/engine.py`) - Orchestration, async coordination. (Status: Not Started)
+    *   🎯 **Milestone 2.9:** Implement & Pass Engine Tests (`tests/unit/test_engine.py`, `tests/integration/test_engine.py`). (Status: Not Started)
+*   🎯 **Phase 3: User Interfaces & Finalization**
+    *   🎯 **Milestone 3.1:** Implement CLI Module (`studyguide/cli.py`) - Typer interface. (Status: Not Started)
+    *   🎯 **Milestone 3.2:** Implement & Pass CLI Tests (`tests/unit/test_cli.py`). (Status: Not Started)
+    *   🎯 **Milestone 3.3:** Implement Streamlit UI (`app/preview.py`). (Status: Not Started)
+    *   🎯 **Milestone 3.4:** Implement & Pass Streamlit UI Tests (`tests/unit/test_preview.py`). (Status: Not Started)
+    *   🎯 **Milestone 3.5:** Final Documentation Update (`README.md`, `docs/`, diagrams). (Status: Not Started)
+    *   🎯 **Milestone 3.6:** Final Code Review, Coverage Check (≥90%), and Refinement. (Status: Not Started)
 
 ## 4. Known Issues & Bugs
 
-*   None identified at this stage.
+*   Parser function (`parse_chapter_response`) in `studyguide/parser.py` currently uses placeholder logic and needs full implementation based on actual API response format.
 
 ## 5. Evolution of Decisions
 
