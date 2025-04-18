@@ -1,0 +1,81 @@
+# =========================================================
+#  AI‑Powered Study‑Guide Generator – .clinerules
+#  Last updated: 2025‑04‑19
+# =========================================================
+
+# ------------------------------------------------------------------
+# 📝  PROJECT OVERVIEW
+# ------------------------------------------------------------------
+# This repository contains a Python CLI/Web application that:
+#  • Accepts a topic and produces a five‑chapter study guide
+#  • Calls the Perplexity AI API asynchronously (httpx + asyncio)
+#  • Parses, cleans and structures results with Pydantic and pandas
+#  • Generates responsive, minified HTML pages (Jinja2 + Tailwind)
+#  • Provides a Typer CLI and optional Streamlit preview UI
+
+# ------------------------------------------------------------------
+# 🧑‍💻  CODING & STYLE CONVENTIONS
+# ------------------------------------------------------------------
+- Follow PEP 484 type hints; enforce Black (line‑length = 88)  :contentReference[oaicite:0]{index=0}
+- Lint with Ruff; warnings are errors  :contentReference[oaicite:1]{index=1}
+- Group imports per Ruff’s isort profile.
+- One public class/function per file unless <200 LOC.
+
+# ------------------------------------------------------------------
+# 🔄  ASYNC & API RULES
+# ------------------------------------------------------------------
+- Use a single shared `httpx.AsyncClient` instance.  :contentReference[oaicite:2]{index=2}
+- Wrap outbound calls in `tenacity.retry` with exponential back‑off.  :contentReference[oaicite:3]{index=3}
+- Never block the loop; off‑load CPU work to `asyncio.to_thread`.
+
+# ------------------------------------------------------------------
+# 🔐  SECURITY & SECRETS
+# ------------------------------------------------------------------
+IGNORE:
+  - .env
+  - **/secrets.*
+  - **/*.pem
+  - **/*.key
+
+Practices:
+- Secrets are injected via environment variables.
+- Don’t log full AI responses; log token counts only.
+
+# ------------------------------------------------------------------
+# 📚  DOCUMENTATION
+# ------------------------------------------------------------------
+- Update `README.md` + `/docs` with every PR.
+- Architecture diagrams live in `/docs/architecture` (generated via `diagrams`).
+
+# ------------------------------------------------------------------
+# 🧪  TESTING
+# ------------------------------------------------------------------
+- Use **pytest‑asyncio**; target ≥90 % coverage.  :contentReference[oaicite:4]{index=4}
+- Unit tests => `tests/unit`, integration => `tests/int`.
+- Snapshot generated HTML in `tests/fixtures/` and assert byte size ±5 %.
+
+# ------------------------------------------------------------------
+# 📈  OBSERVABILITY
+# ------------------------------------------------------------------
+- Structured logging (`structlog`) JSON.
+- Prometheus metrics for API latency, cache hits, token spend.
+
+# ------------------------------------------------------------------
+# 🗂  DIRECTORY & FILE IGNORE PATTERNS
+# ------------------------------------------------------------------
+IGNORE:
+  - .venv/
+  - __pycache__/
+  - dist/
+  - site/                 # generated static HTML
+  - output/
+  - *.sqlite
+  - *.log
+
+# ------------------------------------------------------------------
+# 🤖  CLINE BEHAVIOUR
+# ------------------------------------------------------------------
+- Always include full imports & type hints.
+- Ask clarifying questions before refactors touching ≥3 files.
+- For new modules, create a design doc (`*.md`) before code.
+- Prefer composition over inheritance; avoid singletons.
