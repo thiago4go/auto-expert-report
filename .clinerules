@@ -79,3 +79,10 @@ IGNORE:
 - Ask clarifying questions before refactors touching ≥3 files.
 - For new modules, create a design doc (`*.md`) before code.
 - Prefer composition over inheritance; avoid singletons.
+
+# ------------------------------------------------------------------
+# 💾  GIT WORKFLOW
+# ------------------------------------------------------------------
+- After achieving a significant milestone or completing a sub-task, commit the changes with a clear, descriptive message following conventional commit standards (e.g., `feat: add study guide generation engine`).
+- Push the changes to the remote repository frequently to ensure work is backed up and available for collaboration or review.
+- Use `git add . && git commit -m "feat: description" && git push` or similar commands.
