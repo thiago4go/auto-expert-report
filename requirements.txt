@@ -11,6 +11,7 @@ minify-html>=0.14.0
 pandas>=2.0.0
 matplotlib>=3.7.0
 plotly>=5.15.0
+diagrams>=0.23.0 # For generating diagrams
 
 # Web Preview
 streamlit>=1.28.0

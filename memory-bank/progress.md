@@ -25,8 +25,8 @@ The project foundation is established according to the plan defined in PLAN MODE
 
 *   🎯 **Phase 2: Core Logic Implementation (TDD)**
     *   ✅ **Milestone 2.1:** Implement & Pass API Client Tests (`tests/unit/test_api_client.py`) (Status: Completed: 2025-04-19)
-    *   ✅ **Milestone 2.2:** Implement Parser Module (`studyguide/parser.py`) - Pydantic models defined, parsing logic stubbed. (Status: Partially Completed: 2025-04-19)
-    *   ✅ **Milestone 2.3:** Implement & Pass Parser Tests (`tests/unit/test_parser.py`) - Model tests passing, parser logic tests pending. (Status: Partially Completed: 2025-04-19)
+    *   ✅ **Milestone 2.2:** Implement Parser Module (`studyguide/parser.py`) - Parsing logic implemented based on assumed Markdown format. (Status: Completed: 2025-04-19)
+    *   ✅ **Milestone 2.3:** Implement & Pass Parser Tests (`tests/unit/test_parser.py`) - Comprehensive tests for parsing logic passing. (Status: Completed: 2025-04-19)
     *   🎯 **Milestone 2.4:** Implement Visualizer Module (`studyguide/visualizer.py`) - Diagram generation. (Status: Not Started)
     *   🎯 **Milestone 2.5:** Implement & Pass Visualizer Tests (`tests/unit/test_visualizer.py`). (Status: Not Started)
     *   🎯 **Milestone 2.6:** Implement Renderer Module (`studyguide/renderer.py`) - Jinja2 setup, HTML generation. (Status: Not Started)
@@ -43,7 +43,7 @@ The project foundation is established according to the plan defined in PLAN MODE
 
 ## 4. Known Issues & Bugs
 
-*   Parser function (`parse_chapter_response`) in `studyguide/parser.py` currently uses placeholder logic and needs full implementation based on actual API response format.
+*   None currently identified. Parser implementation assumes a specific Markdown structure from the API.
 
 ## 5. Evolution of Decisions
 
