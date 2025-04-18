@@ -1,0 +1,59 @@
+# Ruff configuration: https://docs.astral.sh/ruff/configuration/
+# Based on .clinerules
+
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.11+
+target-version = "py311"
+
+# Enable Pyflakes, pycodestyle, isort, Pydocstyle, and more.
+# See: https://docs.astral.sh/ruff/rules/
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # Pyflakes
+    "I",  # isort
+    "N",  # pep8-naming
+    "D",  # pydocstyle
+    "UP", # pyupgrade
+    "B",  # flake8-bugbear
+    "A",  # flake8-builtins
+    "C4", # flake8-comprehensions
+    "T20",# flake8-print
+    "SIM",# flake8-simplify
+    "PTH",# flake8-use-pathlib
+    "ISC",# flake8-implicit-str-concat
+    "RUF",# Ruff-specific rules
+]
+ignore = [
+    "D100", # Missing docstring in public module
+    "D104", # Missing docstring in public package
+    "D107", # Missing docstring in __init__
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+indent-style = "space"
+# Like Black, skip string normalization.
+skip-string-normalization = true
+# Like Black, respect magic trailing commas.
+magic-trailing-comma = "respect"
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.isort]
+# Group imports per Ruff's profile (matches .clinerules)
+known-first-party = ["studyguide", "tests"]
+force-sort-within-sections = true
+combine-as-imports = true
+
+[lint.per-file-ignores]
+"tests/**/*.py" = ["D103", "S101"] # Allow missing docstrings and `assert` in tests
+"app/preview.py" = ["T201"] # Allow print in Streamlit app for now

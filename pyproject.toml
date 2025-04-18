@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "studyguide"
+version = "0.1.0"
+description = "AI-Powered Study Guide Generator"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+  {name = "Cline", email = "cline@example.com"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Markup :: HTML",
+]
+dependencies = [
+    # Dependencies are listed in requirements.txt for pip compatibility
+    # This section could be used if distributing as a package
+]
+
+[project.urls]
+Homepage = "https://github.com/user/repo" # Replace with actual URL later
+Issues = "https://github.com/user/repo/issues" # Replace with actual URL later
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.ruff]
+# Configuration is in ruff.toml
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=studyguide --cov-report=term-missing --cov-fail-under=90"
+testpaths = [
+    "tests",
+]
+asyncio_mode = "auto" # For pytest-asyncio
+
+[tool.coverage.run]
+source = ["studyguide"]
+omit = [
+    "studyguide/__main__.py", # Example if we add a main entry point later
+    "app/*", # Exclude streamlit app from core coverage for now
+]
+
+[tool.coverage.report]
+# Fail under 90% coverage as per .clinerules
+fail_under = 90
+show_missing = true

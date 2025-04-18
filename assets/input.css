@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add any custom base styles or component overrides here */
+/* Example:
+body {
+  @apply font-sans antialiased text-gray-800;
+}
+*/
