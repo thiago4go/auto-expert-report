@@ -13,6 +13,158 @@ from studyguide.parser import (
     parse_chapter_response,
 )
 
+# --- Sample Test Data ---
+
+VALID_MARKDOWN_INPUT = """
+# Chapter Title: Introduction to Asyncio
+
+**Introduction:**
+Asyncio is a library to write concurrent code using the async/await syntax.
+It is perfect for IO-bound and high-level structured network code.
+---
+
+## Section 1: Core Concepts
+
+Asyncio uses an event loop to manage tasks. `async def` defines a coroutine.
+`await` pauses the coroutine until the awaited task completes.
+---
+
+## Section 2: Running Tasks
+
+Use `asyncio.run()` to start the main entry point.
+Use `asyncio.create_task()` to run coroutines concurrently.
+---
+
+**Summary:**
+Asyncio provides powerful tools for building responsive and efficient asynchronous applications in Python.
+---
+
+**Keywords:**
+- asyncio
+- asynchronous
+- concurrency
+- event loop
+- await
+---
+
+**Quiz:**
+
+1.  **Question:** What keyword defines a coroutine function?
+    *   `def async`
+    *   `async def`
+    *   `coroutine def`
+    **Correct Answer:** `async def`
+
+2.  **Question:** What function is typically used to start the asyncio event loop?
+    *   `asyncio.start()`
+    *   `asyncio.loop()`
+    *   `asyncio.run()`
+    **Correct Answer:** `asyncio.run()`
+
+"""
+
+VALID_MARKDOWN_NO_KEYWORDS = """
+# Chapter Title: Basic Git Commands
+
+**Introduction:**
+Git is a distributed version control system.
+---
+
+## Section 1: Setup
+
+`git config --global user.name "Your Name"`
+`git config --global user.email "you@example.com"`
+---
+
+**Summary:**
+Basic configuration is essential before starting.
+---
+
+**Quiz:**
+
+1.  **Question:** What does Git track?
+    *   Files
+    *   Changes
+    *   Users
+    **Correct Answer:** Changes
+
+"""
+
+MISSING_TITLE_MARKDOWN = """
+**Introduction:**
+This input is missing the title line.
+---
+## Section 1: Problem
+Content here.
+---
+**Summary:**
+Summary here.
+---
+**Quiz:**
+1. **Question:** Q?
+   * A
+   * B
+   **Correct Answer:** A
+"""
+
+MISSING_SECTIONS_MARKDOWN = """
+# Chapter Title: Missing Sections
+
+**Introduction:**
+This input has no sections defined between intro and summary.
+---
+**Summary:**
+Summary here.
+---
+**Quiz:**
+1. **Question:** Q?
+   * A
+   * B
+   **Correct Answer:** A
+"""
+
+MISSING_QUIZ_MARKDOWN = """
+# Chapter Title: Missing Quiz
+
+**Introduction:**
+Intro here.
+---
+## Section 1: Content
+Some content.
+---
+**Summary:**
+Summary here.
+---
+**Keywords:**
+- missing
+- quiz
+"""
+
+MALFORMED_QUIZ_ITEM_MARKDOWN = """
+# Chapter Title: Malformed Quiz
+
+**Introduction:**
+Intro here.
+---
+## Section 1: Content
+Some content.
+---
+**Summary:**
+Summary here.
+---
+**Quiz:**
+
+1.  **Question:** This question has no options or answer.
+
+2.  **Question:** This question has options but no answer line?
+    *   Option 1
+    *   Option 2
+
+3.  **Question:** This question has options and answer, but answer isn't an option?
+    *   Red
+    *   Blue
+    **Correct Answer:** Green
+"""
 
 # --- Test Pydantic Models ---
 def test_quiz_item_valid():
@@ -122,37 +274,116 @@ def test_chapter_missing_required_field():
     assert "Field required" in str(excinfo.value)
 
 
-# --- Test parse_chapter_response Function (Placeholder) ---
-def test_parse_chapter_response_placeholder():
-    """
-    Test the placeholder parse_chapter_response function.
-    It currently ignores input and returns dummy data.
-    """
-    raw_input = """
-    # Some Markdown Input
+# --- Test parse_chapter_response Function ---
 
-    This shouldn't affect the current placeholder output.
-    """
-    try:
-        chapter = parse_chapter_response(raw_input)
-        assert isinstance(chapter, Chapter)
-        # Check if it returns the specific dummy data defined in the placeholder
-        assert chapter.title == "Placeholder Title"
-        assert len(chapter.sections) == 2
-        assert chapter.sections[0].heading == "Section 1"
-        assert len(chapter.quiz) == 2
-        assert chapter.quiz[0].question == "Q1?"
-        assert chapter.keywords == ["keyword1", "keyword2"]
-    except ParseError as e:
-        pytest.fail(f"Placeholder parse_chapter_response raised ParseError: {e}")
-    except ValidationError as e:
-        pytest.fail(
-            f"Placeholder parse_chapter_response raised ValidationError: {e}"
-        )
+def test_parse_chapter_response_valid():
+    """Test parsing a valid, complete Markdown input."""
+    chapter = parse_chapter_response(VALID_MARKDOWN_INPUT)
+
+    assert isinstance(chapter, Chapter)
+    assert chapter.title == "Introduction to Asyncio"
+    assert "Asyncio is a library" in chapter.introduction
+    assert len(chapter.sections) == 2
+    assert chapter.sections[0].heading == "Core Concepts"
+    assert "event loop to manage tasks" in chapter.sections[0].content
+    assert chapter.sections[1].heading == "Running Tasks"
+    assert "Use `asyncio.run()`" in chapter.sections[1].content
+    assert "responsive and efficient asynchronous applications" in chapter.summary
+    assert chapter.keywords == [
+        "asyncio",
+        "asynchronous",
+        "concurrency",
+        "event loop",
+        "await",
+    ]
+    assert len(chapter.quiz) == 2
+    assert chapter.quiz[0].question == "What keyword defines a coroutine function?"
+    assert chapter.quiz[0].options == ["`def async`", "`async def`", "`coroutine def`"]
+    assert chapter.quiz[0].correct_answer == "`async def`"
+    assert chapter.quiz[1].question == "What function is typically used to start the asyncio event loop?"
+    assert chapter.quiz[1].options == ["`asyncio.start()`", "`asyncio.loop()`", "`asyncio.run()`"]
+    assert chapter.quiz[1].correct_answer == "`asyncio.run()`"
 
 
-# Note: More tests will be needed here once the actual parsing logic
-# in parse_chapter_response is implemented. These tests would cover:
-# - Parsing various valid Markdown-like inputs.
-# - Handling malformed inputs (raising ParseError).
-# - Edge cases in formatting.
+def test_parse_chapter_response_valid_no_keywords():
+    """Test parsing valid input without the optional keywords section."""
+    chapter = parse_chapter_response(VALID_MARKDOWN_NO_KEYWORDS)
+
+    assert isinstance(chapter, Chapter)
+    assert chapter.title == "Basic Git Commands"
+    assert "distributed version control system" in chapter.introduction
+    assert len(chapter.sections) == 1
+    assert chapter.sections[0].heading == "Setup"
+    # Corrected assertion to check for the actual content parts
+    assert '`git config --global user.name "Your Name"`' in chapter.sections[0].content
+    assert '`git config --global user.email "you@example.com"`' in chapter.sections[0].content
+    assert "Basic configuration is essential" in chapter.summary
+    assert chapter.keywords is None # Should be None when section is missing
+    assert len(chapter.quiz) == 1
+    assert chapter.quiz[0].question == "What does Git track?"
+    assert chapter.quiz[0].options == ["Files", "Changes", "Users"]
+    assert chapter.quiz[0].correct_answer == "Changes"
+
+
+def test_parse_chapter_response_missing_title():
+    """Test ParseError when the title pattern is not found."""
+    with pytest.raises(ParseError, match="Could not find chapter title"):
+        parse_chapter_response(MISSING_TITLE_MARKDOWN)
+
+
+def test_parse_chapter_response_missing_section():
+    """Test ParseError when no sections are found."""
+    with pytest.raises(ParseError, match="Could not find any sections"):
+        parse_chapter_response(MISSING_SECTIONS_MARKDOWN)
+
+
+def test_parse_chapter_response_missing_quiz():
+    """Test ParseError when the quiz section is missing."""
+    # Note: This assumes the Quiz section itself is mandatory, even if empty.
+    # If an empty quiz section is valid, this test needs adjustment.
+    with pytest.raises(ParseError, match="Could not find quiz section"):
+        parse_chapter_response(MISSING_QUIZ_MARKDOWN)
+
+
+def test_parse_chapter_response_malformed_quiz_item():
+    """Test ParseError wrapping ValidationError for a malformed quiz item."""
+    # The regex parses item 3, but it fails validation ("Green" not in ["Red", "Blue"]).
+    # This results in a ParseError wrapping a ValidationError.
+    with pytest.raises(ParseError, match="Parsed data failed validation"):
+        try:
+            parse_chapter_response(MALFORMED_QUIZ_ITEM_MARKDOWN)
+        except ParseError as e:
+            assert isinstance(e.__cause__, ValidationError)
+            assert "Correct answer must be one of the provided options" in str(e)
+            raise e
+
+
+def test_parse_chapter_response_validation_error_quiz_explicit():
+    """Test ParseError wrapping ValidationError for invalid quiz data."""
+    # Test case 3 from MALFORMED_QUIZ_ITEM_MARKDOWN should parse but fail validation
+    # because "Green" is not in ["Red", "Blue"].
+    # We need to modify the input slightly to make it parse past the options check.
+    invalid_validation_input = MALFORMED_QUIZ_ITEM_MARKDOWN.replace(
+        "**Correct Answer:** Green", "**Correct Answer:** Green\n\n4. **Question:** Dummy"
+    ) # Add dummy next question to ensure regex terminates correctly
+
+    with pytest.raises(ParseError, match="Parsed data failed validation"):
+        try:
+            parse_chapter_response(invalid_validation_input)
+        except ParseError as e:
+            # Check that the cause was indeed a ValidationError
+            assert isinstance(e.__cause__, ValidationError)
+            assert "Correct answer must be one of the provided options" in str(e)
+            raise e # Re-raise the caught ParseError to satisfy pytest.raises
+
+
+def test_parse_chapter_response_empty_input():
+    """Test ParseError with empty string input."""
+    with pytest.raises(ParseError):
+        parse_chapter_response("")
+
+
+def test_parse_chapter_response_gibberish_input():
+    """Test ParseError with input that doesn't match structure."""
+    with pytest.raises(ParseError):
+        parse_chapter_response("This is just random text.")
